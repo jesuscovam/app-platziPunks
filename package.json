@@ -6,9 +6,19 @@
     "start": "next start"
   },
   "dependencies": {
+    "@chakra-ui/icons": "^1.1.7",
+    "@chakra-ui/react": "^1.8.8",
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
+    "@web3-react/core": "8.0.23-beta.0",
+    "@web3-react/metamask": "8.0.19-beta.0",
+    "@web3-react/types": "8.0.12-beta.0",
+    "framer-motion": "^6",
     "next": "latest",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "web3": "^1.7.3",
+    "web3-react": "^5.0.5"
   },
   "devDependencies": {
     "@types/node": "17.0.4",
