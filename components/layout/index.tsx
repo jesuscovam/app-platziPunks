@@ -15,7 +15,7 @@ import Footer from './footer'
 import WalletData from './wallet-data'
 import React from 'react'
 
-const Links = [
+const Links: { name: string; to: string }[] = [
   {
     name: 'Home',
     to: '/',

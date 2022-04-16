@@ -9,23 +9,26 @@ import {
 import { AddIcon } from '@chakra-ui/icons'
 import Link from 'next/link'
 import { useWeb3React } from '@web3-react/core'
+import {} from '@web3-react/types'
 import { hooks, metaMask, useTruncatedAddress } from '@/src/web3'
 import { useCallback, useEffect, useState } from 'react'
 const { useProvider } = hooks
 
-const WalletData = () => {
+const LOCAL_STORAGE_KEY = 'previouslyConnected' as const
+
+const WalletData = (): JSX.Element => {
   const [balance, setBalance] = useState(0)
-  const { isActive, account, error, connector } = useWeb3React()
+  const { isActive, account, connector } = useWeb3React()
   const library = useProvider()
 
   const connect = useCallback(() => {
     metaMask.activate(connector)
-    localStorage.setItem('previouslyConnected', 'true')
+    localStorage.setItem(LOCAL_STORAGE_KEY, 'true')
   }, [metaMask, connector])
 
   const disconnect = () => {
     metaMask.deactivate()
-    localStorage.removeItem('previouslyConnected')
+    localStorage.removeItem(LOCAL_STORAGE_KEY)
   }
 
   const getBalance = useCallback(async () => {
@@ -39,7 +42,7 @@ const WalletData = () => {
   }, [isActive, getBalance])
 
   useEffect(() => {
-    if (localStorage.getItem('previouslyConnected') === 'true') connect()
+    if (localStorage.getItem(LOCAL_STORAGE_KEY) === 'true') connect()
   }, [connect])
 
   const truncatedAddress = useTruncatedAddress(account as string)
