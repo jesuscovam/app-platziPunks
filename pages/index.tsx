@@ -17,24 +17,19 @@ import useTruncatedAddress from '@/src/web3'
 
 const imageGeneratorURI = 'https://avataaars.io/' as const
 const Home: NextPage = () => {
-  const toast = useToast()
   const { isActive, account } = useWeb3React()
-  // const truncatedAccount = useTruncatedAddress(account as)
   const platziPunks = usePlatziPunks()
   const [image, setImage] = useState<string | null>(null)
-  const [availablesPunks, setAvailablesPunks] = useState<number>(0)
-  const [isMinting, setIsMinting] = useState<boolean>(false)
+  const [nextId, setNextId] = useState<number>(0)
 
   const getPlatziPunksData = useCallback(async () => {
     if (platziPunks) {
       const totalSupply = await platziPunks.methods.totalSupply().call()
-      const maxSupply = await platziPunks.methods.maxSupply().call()
-
-      const availables = maxSupply - totalSupply
-      setAvailablesPunks(availables)
+      const nextId = Number(totalSupply) + 1
+      setNextId(nextId)
 
       const dnaPreview = await platziPunks.methods
-        .deterministicPseudoRandomDNA(totalSupply, account)
+        .deterministicPseudoRandomDNA(nextId, account)
         .call()
 
       const image = await platziPunks.methods.imageByDNA(dnaPreview).call()
@@ -46,6 +41,8 @@ const Home: NextPage = () => {
     getPlatziPunksData()
   }, [getPlatziPunksData])
 
+  const [isMinting, setIsMinting] = useState<boolean>(false)
+  const toast = useToast()
   const mint = () => {
     setIsMinting(true)
     platziPunks?.methods
@@ -80,6 +77,9 @@ const Home: NextPage = () => {
         })
       })
   }
+
+  const truncatedAccount = useTruncatedAddress(account as string)
+
   return (
     <Stack
       align={'center'}
@@ -124,11 +124,7 @@ const Home: NextPage = () => {
           usa el previsualizador para averiguar cuál sería tu Platzi Punk si
           minteas en este momento
         </Text>
-        {isActive && (
-          <Text fontWeight="bold" color={'purple.700'}>
-            Punks disponibles: {availablesPunks}
-          </Text>
-        )}
+
         <Stack
           spacing={{ base: 4, sm: 6 }}
           direction={{ base: 'column', sm: 'row' }}
@@ -169,13 +165,13 @@ const Home: NextPage = () => {
               <Badge>
                 Next ID:
                 <Badge ml={1} colorScheme="green">
-                  1
+                  {nextId}
                 </Badge>
               </Badge>
               <Badge ml={2}>
                 Address:
                 <Badge ml={1} colorScheme="green">
-                  0x0000...0000
+                  {truncatedAccount}
                 </Badge>
               </Badge>
             </Flex>

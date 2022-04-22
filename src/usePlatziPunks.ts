@@ -1,13 +1,12 @@
-import { useEffect, useMemo } from 'react'
+import { useMemo } from 'react'
 import { useWeb3React } from '@web3-react/core'
-import { hooks, metaMask } from '@/src/web3'
-
 import { PlatziPunksArtifact } from './artifacts/PlatziPunks'
 import Web3 from 'web3'
+import type { Contract } from 'web3-eth-contract'
 
 const { address, abi } = PlatziPunksArtifact
 
-export function usePlatziPunks() {
+export function usePlatziPunks(): Contract | undefined {
   const { chainId, isActive } = useWeb3React()
 
   const platziPunks = useMemo(() => {
