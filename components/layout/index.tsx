@@ -14,7 +14,6 @@ import NavLink from './nav-link'
 import Footer from './footer'
 import WalletData from './wallet-data'
 import React from 'react'
-import { LayoutTitle } from './LayoutTitle'
 
 const Links: { name: string; to: string }[] = [
   {
@@ -75,6 +74,14 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
                   {name}
                 </NavLink>
               ))}
+              <a
+                href="http://platzipunksipfs.jesuscova.com"
+                target="_blank"
+                rel="no opener"
+                className="font-bold text-indigo-500"
+              >
+                IPFS APP
+              </a>
             </HStack>
           </HStack>
           <WalletData />
