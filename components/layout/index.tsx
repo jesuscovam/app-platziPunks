@@ -13,7 +13,8 @@ import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons'
 import NavLink from './nav-link'
 import Footer from './footer'
 import WalletData from './wallet-data'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 
 const Links: { name: string; to: string }[] = [
   {
@@ -26,8 +27,33 @@ const Links: { name: string; to: string }[] = [
   },
 ]
 
+interface LinkToAnotherProject {
+  title: string
+  url: string
+}
+
+const VercelURL = 'https://platzipunks.jesuscova.com'
+const DEV_URL = 'http://localhost:3000'
+
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const [otherAppLink, setOtherAppLink] = useState<LinkToAnotherProject>()
+
+  useEffect(() => {
+    const url = window.location.origin
+    console.log({ url })
+    if (url === VercelURL || url === DEV_URL) {
+      setOtherAppLink({
+        title: 'IPFS APP',
+        url: 'http://platzipunksipfs.jesuscova.com',
+      })
+      return
+    }
+    setOtherAppLink({
+      title: 'Vercel APP',
+      url: 'https://platzipunks.jesuscova.com',
+    })
+  }, [setOtherAppLink])
 
   return (
     <Flex minH="100vh" direction="column">
@@ -75,12 +101,12 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
                 </NavLink>
               ))}
               <a
-                href="http://platzipunksipfs.jesuscova.com"
+                href={otherAppLink?.url}
                 target="_blank"
                 rel="no opener"
                 className="font-bold text-indigo-500"
               >
-                IPFS APP
+                {otherAppLink?.title}
               </a>
             </HStack>
           </HStack>
