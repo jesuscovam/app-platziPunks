@@ -52,7 +52,7 @@ const WalletData = (): JSX.Element => {
       {isActive ? (
         <Tag colorScheme="green" borderRadius="full">
           <TagLabel>
-            <Link href="/punks">{truncatedAddress}</Link>
+            <Link href={`/punks?address=${account}`}>{truncatedAddress}</Link>
           </TagLabel>
           <Badge
             d={{

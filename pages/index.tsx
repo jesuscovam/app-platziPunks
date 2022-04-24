@@ -6,7 +6,6 @@ import {
   Button,
   Image,
   Badge,
-  useToast,
 } from '@chakra-ui/react'
 import Link from 'next/link'
 import { usePlatziPunks } from '@/src/usePlatziPunks'
@@ -14,6 +13,7 @@ import { useWeb3React } from '@web3-react/core'
 import type { NextPage } from 'next'
 import { useState, useEffect, useCallback } from 'react'
 import useTruncatedAddress from '@/src/web3'
+import { useToastTransactions } from '@/src/useToastTransactions'
 
 const imageGeneratorURI = 'https://avataaars.io/' as const
 const Home: NextPage = () => {
@@ -42,7 +42,7 @@ const Home: NextPage = () => {
   }, [getPlatziPunksData])
 
   const [isMinting, setIsMinting] = useState<boolean>(false)
-  const toast = useToast()
+  const toastTransaction = useToastTransactions()
   const mint = () => {
     setIsMinting(true)
     platziPunks?.methods
@@ -51,30 +51,15 @@ const Home: NextPage = () => {
         from: account,
       })
       .on('transactionHash', (txHash: string) => {
-        toast({
-          position: 'top',
-          title: 'Transacción enviada',
-          description: txHash,
-          status: 'info',
-        })
+        toastTransaction.toastTxHash(txHash)
       })
       .on('receipt', () => {
         setIsMinting(false)
-        toast({
-          position: 'top',
-          title: 'Transacción completada',
-          description: 'nunca pares de aprender',
-          status: 'success',
-        })
+        toastTransaction.toastSuccess()
       })
       .on('error', (error: Error) => {
         setIsMinting(false)
-        toast({
-          position: 'top',
-          title: 'Transacción fallida',
-          description: error.message,
-          status: 'error',
-        })
+        toastTransaction.toastError(error)
       })
   }
 

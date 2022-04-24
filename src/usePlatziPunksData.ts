@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useState } from 'react'
 import type { Contract } from 'web3-eth-contract'
 import { usePlatziPunks } from './usePlatziPunks'
+import Web3 from 'web3'
+import { useToast } from '@chakra-ui/react'
 
 interface PunksMetadata {
   description: string
@@ -96,19 +98,41 @@ async function getPunkData(
 }
 
 // Plural
-export function usePlatziPunksData(): { punks: PunkData[]; loading: boolean } {
+export function usePlatziPunksData({ owner }: { owner?: string }): {
+  punks: PunkData[]
+  loading: boolean
+} {
   const [punks, setPunks] = useState<PunkData[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   const platziPunks = usePlatziPunks()
-
+  const toast = useToast()
   const update = useCallback(async () => {
     if (platziPunks) {
       setLoading(true)
+      let tokenIds: number[] | string[] = []
+      // @ts-ignore
+      const web3 = new Web3(window.ethereum)
 
-      const totalSupply = Number(await platziPunks.methods.totalSupply().call())
-      const tokenIds = new Array(totalSupply)
-        .fill(totalSupply)
-        .map((_, index) => index)
+      if (!web3.utils.isAddress(owner as string)) {
+        const totalSupply = Number(
+          await platziPunks.methods.totalSupply().call()
+        )
+        tokenIds = new Array(totalSupply)
+          .fill(totalSupply)
+          .map((_, index) => index)
+      } else {
+        const balanceOf = Number(
+          await platziPunks.methods.balanceOf(owner).call()
+        )
+        tokenIds = await Promise.all(
+          new Array(balanceOf).fill(balanceOf).map(async (_, index) => {
+            const tokenId: string = await platziPunks.methods
+              .tokenOfOwnerByIndex(owner, index)
+              .call()
+            return tokenId
+          })
+        )
+      }
 
       const punksPromise = tokenIds.map((tokenId) =>
         getPunkData(platziPunks, String(tokenId))
@@ -120,7 +144,7 @@ export function usePlatziPunksData(): { punks: PunkData[]; loading: boolean } {
 
       setLoading(false)
     }
-  }, [platziPunks])
+  }, [platziPunks, owner])
 
   useEffect(() => {
     update()
@@ -132,6 +156,7 @@ export function usePlatziPunksData(): { punks: PunkData[]; loading: boolean } {
 export function usePlatziPunkData(tokenId: string): {
   punk: PunkData | undefined
   loading: boolean
+  update: () => Promise<void>
 } {
   const [punk, setPunk] = useState<PunkData>()
   const [loading, setLoading] = useState<boolean>(true)
@@ -150,5 +175,5 @@ export function usePlatziPunkData(tokenId: string): {
     update()
   }, [update])
 
-  return { punk, loading }
+  return { punk, loading, update }
 }

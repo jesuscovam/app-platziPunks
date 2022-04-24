@@ -14,6 +14,7 @@ import NavLink from './nav-link'
 import Footer from './footer'
 import WalletData from './wallet-data'
 import React from 'react'
+import { LayoutTitle } from './LayoutTitle'
 
 const Links: { name: string; to: string }[] = [
   {
