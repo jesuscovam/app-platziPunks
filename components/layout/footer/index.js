@@ -33,11 +33,24 @@ const Footer = () => {
               Pablo Stanley 🎨
             </Link>
           </Text>
-          <Text>
-            <Link ml={1} href="https://jesuscova.com">
+          <div className="flex flex-row items-center justify-center space-x-4">
+            <a
+              href="https://jesuscova.com"
+              target="_blank"
+              rel="no opener"
+              className="cursor-pointer text-indigo-400 underline"
+            >
               Nextjs@12 & Web3@8 version by Jesus Cova
-            </Link>
-          </Text>
+            </a>
+            <a
+              href="https://github.com/jesuscovam/app-platziPunks"
+              target="_blank"
+              rel="no opener"
+              className="cursor-pointer text-indigo-400 underline"
+            >
+              Código de esta app
+            </a>
+          </div>
         </Container>
       </Box>
     </Box>
