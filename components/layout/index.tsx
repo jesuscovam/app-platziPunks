@@ -6,7 +6,6 @@ import {
   useDisclosure,
   useColorModeValue,
   Stack,
-  Image,
   Heading,
 } from '@chakra-ui/react'
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons'
@@ -14,7 +13,6 @@ import NavLink from './nav-link'
 import Footer from './footer'
 import WalletData from './wallet-data'
 import React, { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
 
 const Links: { name: string; to: string }[] = [
   {
@@ -36,7 +34,7 @@ interface LinkToAnotherProject {
   url: string
 }
 
-const VercelURL = 'https://platzipunks.jesuscova.com'
+const VercelURL = 'https://nfts.jesuscova.com'
 const DEV_URL = 'http://localhost:3000'
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
@@ -55,7 +53,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
     }
     setOtherAppLink({
       title: 'Vercel APP',
-      url: 'https://platzipunks.jesuscova.com',
+      url: VercelURL,
     })
   }, [setOtherAppLink])
 
