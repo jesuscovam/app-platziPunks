@@ -76,6 +76,7 @@ export default function Punks() {
     const web3 = new Web3(window.ethereum)
     if (address) {
       const isValid = web3.utils.isAddress(address)
+
       setValidAddress(isValid)
       setSubmit(true)
       if (isValid)

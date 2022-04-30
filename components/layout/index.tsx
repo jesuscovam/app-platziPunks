@@ -25,6 +25,10 @@ const Links: { name: string; to: string }[] = [
     name: 'Punks',
     to: '/punks',
   },
+  {
+    name: 'About',
+    to: '/about',
+  },
 ]
 
 interface LinkToAnotherProject {
@@ -85,9 +89,8 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
           />
           <HStack spacing={8} alignItems={'center'}>
             <Flex alignItems="center">
-              <Image src="/platzi.svg" width="80px" />
               <Heading size="md" color="purple" mt={0.2} ml={1}>
-                Punks
+                NFTS
               </Heading>
             </Flex>
             <HStack

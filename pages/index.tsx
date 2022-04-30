@@ -92,22 +92,18 @@ const Home: NextPage = () => {
               zIndex: -1,
             }}
           >
-            Un Platzi Punk
+            Un NFT
           </Text>
           <br />
           <Text as={'span'} color={'green.400'}>
-            nunca para de aprender
+            sip, los nfts
           </Text>
         </Heading>
-        <Text color={'gray.500'}>
-          Platzi Punks es una colección de Avatares randomizados cuya metadata
-          es almacenada on-chain. Poseen características únicas y sólo hay 10000
-          en existencia.
-        </Text>
+        <Text color={'gray.500'}>ya en este punto todo es relativo</Text>
         <Text color={'green.500'}>
-          Cada Platzi Punk se genera de forma secuencial basado en tu address,
-          usa el previsualizador para averiguar cuál sería tu Platzi Punk si
-          minteas en este momento
+          Cada NFT se genera de forma secuencial basado en tu address, usa el
+          previsualizador para averiguar cuál sería tu NFT si minteas en este
+          momento
         </Text>
 
         <Stack
