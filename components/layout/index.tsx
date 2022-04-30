@@ -49,7 +49,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
     if (url === VercelURL || url === DEV_URL) {
       setOtherAppLink({
         title: 'IPFS APP',
-        url: 'http://platzipunksipfs.jesuscova.com',
+        url: 'https://nftsipfs.jesuscova.com',
       })
       return
     }
